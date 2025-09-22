@@ -1,0 +1,2 @@
+export const stockValues = [{id:1,value:"AVAILABLE",name:"Finalizado"},{ id:2,value:"UNAVAILABLE",name:"Sobe encomenda"}]
+export const emphasisvalues = [{id:1,value:"false",name:"Não"},{ id:2,value:"true",name:"Sim"}]
