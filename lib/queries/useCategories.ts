@@ -24,7 +24,7 @@ export const useCategoriesHook = () => {
     const createCategory =  useMutation({
       mutationFn: async (data: { name: string; description: string }) => {
         const response = await api.post(
-          "http://localhost:3001/categories/create",
+          "/categories/create",
           data
         );
 

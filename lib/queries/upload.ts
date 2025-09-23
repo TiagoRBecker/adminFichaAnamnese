@@ -21,10 +21,10 @@ export const uploadHook = () => {
         return response.data;
       },
       async onSuccess(data, variables, context) {
-        console.log(data);
+       return 
       },
       async onError(error, variables, context) {
-        console.log(error.message);
+        
       },
     });
   };
@@ -36,7 +36,7 @@ export const uploadHook = () => {
         formData.append("key", data.key as string);
         console.log(formData.get("docs"));
         const response = await api.post(
-          "http://localhost:3001/upload/docs",
+          "/upload/docs",
           formData,
           {
             headers: {
@@ -48,7 +48,7 @@ export const uploadHook = () => {
         return response.data;
       },
       async onSuccess(data, variables, context) {
-        console.log(data);
+       return 
       },
       async onError(error, variables, context) {},
     });

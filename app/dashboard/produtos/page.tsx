@@ -98,7 +98,7 @@ export default function ProductsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-heading font-bold text-foreground">
-              {docQuery?.data.length} Total de Documentos
+              {docQuery?.data?.length} Total de Documentos
             </div>
           </CardContent>
         </Card>

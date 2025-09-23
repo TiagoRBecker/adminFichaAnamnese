@@ -2,19 +2,21 @@ import { DocType } from "@/components/products/schema";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import useAxiosAuth from "../axios/useAxiosHook";
+import { useSwal } from "../swall";
 
 type Props = {
   id: string;
   data: DocType;
 };
 export const useDocumentsHook = () => {
+  const  { show } = useSwal()
   const api = useAxiosAuth();
   const queryClient = useQueryClient();
 
   const docQuery = useQuery({
     queryKey: ["docs"],
     queryFn: async () => {
-      const response = await api.get("http://localhost:3001/products");
+      const response = await api.get("/products");
       return response.data;
     },
   });
@@ -30,10 +32,20 @@ export const useDocumentsHook = () => {
     },
     async onSuccess(data, variables, context) {
       await queryClient.invalidateQueries({ queryKey: ["docs"] });
+        await show(
+          "Sucesso",
+          "Documento criado com sucesso",
+          "success"
+        );
       return;
     },
     async onError(error, variables, context) {
-      console.log(error);
+        await show(
+          "Erro ao criar",
+          "Ocorreu um erro ao criar a documento",
+          "error"
+        );
+        return;
     },
   });
 
@@ -48,9 +60,20 @@ export const useDocumentsHook = () => {
     },
     async onSuccess(data, variables, context) {
       await queryClient.invalidateQueries({ queryKey: ["docs"] });
+         await show(
+          "Atualizado",
+          "Documento atualizado com sucesso",
+          "success"
+        );
+        return
     },
     async onError(error, variables, context) {
-      console.log(error);
+         await show(
+          "Erro ao atualizar",
+          "Erro ao  atualizar o  documento.",
+          "error"
+        );
+        return 
     },
   });
 

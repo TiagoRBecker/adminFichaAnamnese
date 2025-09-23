@@ -4,12 +4,12 @@ import axios from "axios";
 async function refreshAccessToken(token: any) {
   try {
     const response = await axios.post(
-      "http://localhost:3001/auth/refreshToken/admin",
+      `${process.env.API_URL}/auth/refreshToken/admin`,
       { refreshToken: token.refreshToken }
     );
 
     const newTokens = response.data;
-   
+
     return {
       ...token,
       accessToken: newTokens.accessToken,
@@ -49,15 +49,14 @@ export const authOptions: NextAuthOptions = {
         };
         try {
           const data = await axios.post(
-            `http://localhost:3001/auth/admin/signin`,
+            `${process.env.API_URL}/auth/admin/signin`,
             dto
           );
-         
+
           return {
             ...data.data,
           };
         } catch (error: any) {
-      
           throw new Error(error.response?.data.message || "Erro ao autenticar");
         }
       },

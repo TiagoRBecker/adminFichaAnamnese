@@ -8,26 +8,10 @@ import { useRouter } from "next/navigation";
 
 const useAxiosAuth = () => {
   const router = useRouter();
-  const handleErrorAxios = async (status: number) => {
-    switch (status) {
-      case 401:
-        await Swal.fire(
-          `Sua sessão expirou. Por favor, faça login novamente.`,
-          "Clique no botão para continuar!",
-          "error"
-        );
-        await signOut({ callbackUrl: "/" });
-
-        break;
-      case 500:
-        return router.push("/500");
-      default:
-        break;
-    }
-  };
 
   const publicRoutes = ["/auth/signin"];
   const { data: session, status } = useSession();
+  console.log(session);
 
   useEffect(() => {
     if (status === "loading") return;
@@ -51,29 +35,20 @@ const useAxiosAuth = () => {
       (response) => response, // sucesso: apenas retorna a resposta
 
       async (error) => {
+        console.log(error);
         const originalRequest = error.config;
-
         if (error.code === "ERR_NETWORK") {
-          await signOut({ callbackUrl: "/" });
-          router.push("/error");
+          await signOut({ redirect: false });
+          return router.push("/error");
+        }
 
-          return;
-        }
-        if (error.code === "Network Error") {
-          await signOut({ callbackUrl: "/" });
-          router.push("/error");
-          return;
-        }
-        if (
-          session?.user?.error === "AcessTokenExpired" ||
-          error.response.data.statusCode === 401
-        ) {
+        if (session?.user?.error === "RefreshAccessTokenError") {
           await Swal.fire(
             `Sua sessão expirou. Por favor, faça login novamente.`,
             "Clique no botão para continuar!",
             "error"
           );
-          await signOut({ callbackUrl: "/" });
+          await signOut({ redirect: false, callbackUrl:"/" });
 
           return new Promise(() => {});
         }
