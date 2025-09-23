@@ -11,7 +11,7 @@ const useAxiosAuth = () => {
 
   const publicRoutes = ["/auth/signin"];
   const { data: session, status } = useSession();
-  console.log(session);
+
 
   useEffect(() => {
     if (status === "loading") return;
