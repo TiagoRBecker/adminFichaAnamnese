@@ -9,7 +9,7 @@ export const uploadHook = () => {
         const formData = new FormData();
         files.forEach((file) => formData.append("images", file));
         const response = await api.post(
-          "http://localhost:3001/upload/images",
+          "/upload/images",
           formData,
           {
             headers: {

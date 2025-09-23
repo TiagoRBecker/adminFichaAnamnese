@@ -24,7 +24,7 @@ export const useDocumentsHook = () => {
   const create = useMutation({
     mutationFn: async (data: DocType) => {
       const response = await api.post(
-        "http://localhost:3001/products/create",
+        "/products/create",
         data
       );
 
@@ -52,7 +52,7 @@ export const useDocumentsHook = () => {
   const updateDoc = useMutation({
     mutationFn: async ({ id, data }: Props) => {
       const response = await api.put(
-        `http://localhost:3001/products/update/${id}`,
+        `/update/${id}`,
         data
       );
 

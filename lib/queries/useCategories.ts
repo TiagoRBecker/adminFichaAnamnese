@@ -14,7 +14,7 @@ export const useCategoriesHook = () => {
     const categoryQuery =  useQuery({
       queryKey: ["categories"],
       queryFn: async () => {
-        const response = await api("http://localhost:3001/categories");
+        const response = await api("/categories");
         return response.data;
       },
     });
@@ -53,7 +53,7 @@ export const useCategoriesHook = () => {
     const updateCategory =  useMutation({
       mutationFn: async ({ id, data }: PropsUpdate) => {
         const response = await api.put(
-          `http://localhost:3001/categories/${id}`,
+          `/categories/${id}`,
           data
         );
 
@@ -82,7 +82,7 @@ export const useCategoriesHook = () => {
     const deleteCategory =  useMutation({
       mutationFn: async (id: string) => {
         const response = await api.delete(
-          `http://localhost:3001/categories/${id}`
+          `/categories/${id}`
         );
 
         return response.data;
