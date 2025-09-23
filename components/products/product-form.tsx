@@ -113,7 +113,7 @@ export function ProductForm({ product, handleCloseModal }: Props) {
         });
 
         handleCloseModal();
-        await show("Atualizado ", "Produto atualiado com sucesso", "success");
+        
         return;
       } catch (error) {
         console.log(error);
@@ -138,7 +138,7 @@ export function ProductForm({ product, handleCloseModal }: Props) {
         });
 
         handleCloseModal();
-        await show("Criado", "Produto criado com sucesso", "success");
+       
         return;
       } catch (error) {}
     }
