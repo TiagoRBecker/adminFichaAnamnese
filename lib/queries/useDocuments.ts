@@ -52,7 +52,7 @@ export const useDocumentsHook = () => {
   const updateDoc = useMutation({
     mutationFn: async ({ id, data }: Props) => {
       const response = await api.put(
-        `/update/${id}`,
+        `/products/update/${id}`,
         data
       );
 
@@ -68,6 +68,7 @@ export const useDocumentsHook = () => {
         return
     },
     async onError(error, variables, context) {
+
          await show(
           "Erro ao atualizar",
           "Erro ao  atualizar o  documento.",
