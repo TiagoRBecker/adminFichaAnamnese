@@ -8,7 +8,7 @@ export type Products = {
     views:number,
     highlight:boolean,
     categories:any,
-    doc:{id:string}
+    doc:{id:string, key:string}
 
 
 }

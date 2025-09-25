@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import type React from "react";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
@@ -24,7 +24,6 @@ const openSans = Open_Sans({
   weight: ["400", "500", "600"],
 });
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,19 +31,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-           <SessionProvider>
-      <body
-        className={`font-sans ${montserrat.variable} ${openSans.variable} ${GeistMono.variable} antialiased`}
-      >
-   
+      <SessionProvider>
+        <body
+          className={`font-sans ${montserrat.variable} ${openSans.variable} ${GeistMono.variable} antialiased`}
+        >
           <ReactQueryProvider>
             <Suspense fallback={null}>{children}</Suspense>
             <Toaster />
           </ReactQueryProvider>
           <Analytics />
-       
-      </body>
-       </SessionProvider>
+        </body>
+      </SessionProvider>
     </html>
   );
 }

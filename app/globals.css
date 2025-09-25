@@ -127,6 +127,8 @@
     font-family: var(--font-heading);
   }
 }
+
+
 .swal2-container {
-  z-index: 20000 !important;
+  z-index: 99999 !important;
 }

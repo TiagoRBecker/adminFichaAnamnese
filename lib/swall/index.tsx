@@ -15,7 +15,7 @@ export const useSwal = () => {
 
       confirmButtonText: "Ok",
       customClass: {
-        container: "z-[20000]",
+        container: 'swal2-z-index-high'
       },
 
       target: document.body,

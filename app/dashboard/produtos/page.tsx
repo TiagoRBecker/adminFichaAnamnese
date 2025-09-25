@@ -24,11 +24,10 @@ import { Plus, Edit, Trash2, Package } from "lucide-react";
 import { ProductForm } from "@/components/products/product-form";
 import { useDocumentsHook } from "@/lib/queries/useDocuments";
 import { Products } from "@/lib/types/products";
+import { DialogOverlay, DialogPortal } from "@radix-ui/react-dialog";
 
 export default function ProductsPage() {
-  const { docQuery}= useDocumentsHook()
-
-
+  const { docQuery } = useDocumentsHook();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
@@ -40,9 +39,9 @@ export default function ProductsPage() {
     setIsDialogOpen(true);
   };
 
-  const handleCloseModal= ()=>{
+  const handleCloseModal = () => {
     setIsDialogOpen(false);
-  }
+  };
 
   const openAddDialog = () => {
     setEditingProduct(null);
@@ -53,14 +52,12 @@ export default function ProductsPage() {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
       currency: "BRL",
-    }).format(price);
+    }).format(price / 100);
   };
 
-  if (docQuery.isLoading) return <p>Carregando </p>;
   return (
     <DashboardLayout>
       <div className="w-full flex flex-col gap-10 ">
-        {/* Header */}
         <div className="w-full flex items-center justify-between">
           <div>
             <h1 className="font-heading font-black text-3xl text-foreground">
@@ -70,22 +67,34 @@ export default function ProductsPage() {
               Gerencie seu catálogo de produtos
             </p>
           </div>
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={openAddDialog} className="gap-2">
-                <Plus className="h-4 w-4" />
-                Novo Produto
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="!max-w-6xl">
-              <DialogHeader>
-                <DialogTitle className="font-heading font-bold">
-                  {editingProduct ? "Editar Produto" : "Novo Produto"}
-                </DialogTitle>
-              </DialogHeader>
-              <ProductForm product={editingProduct}  handleCloseModal={handleCloseModal}/>
-            </DialogContent>
-          </Dialog>
+          <div className="z-10 relative">
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button onClick={openAddDialog} className="gap-2">
+                  <Plus className="h-4 w-4" />
+                  Novo Produto
+                </Button>
+              </DialogTrigger>
+
+           
+              
+                <DialogContent
+                  className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
+      !max-w-6xl z-[50]"
+                >
+                  <DialogHeader>
+                    <DialogTitle>
+                      {editingProduct ? "Editar Produto" : "Novo Produto"}
+                    </DialogTitle>
+                  </DialogHeader>
+                  <ProductForm
+                    product={editingProduct}
+                    handleCloseModal={handleCloseModal}
+                  />
+                </DialogContent>
+          
+            </Dialog>
+          </div>
         </div>
 
         {/* Stats Card */}
@@ -103,87 +112,93 @@ export default function ProductsPage() {
           </CardContent>
         </Card>
 
-        {/* Products Table */}
-        <Card className="shadow-sm">
-          <CardHeader>
-            <CardTitle className="font-heading font-bold">
-              Lista de Produtos
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Imagem</TableHead>
-                  <TableHead>Nome</TableHead>
-                        <TableHead>Destacado</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Preço</TableHead>
-                  <TableHead>Views</TableHead>
-                  <TableHead className="text-right">Ações</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {docQuery.data?.map((product: Products, index: number) => (
-                  <TableRow key={product.id}>
-                    <TableCell>
-                      <img
-                        src={product?.images[0]}
-                        alt={product.name}
-                        className="w-10 h-10 rounded-lg object-cover"
-                      />
-                    </TableCell>
-                    <TableCell className="font-medium">
-                      {product.name}
-                    </TableCell>
-                      <TableCell>
-                      <Badge
-                      
-                       className={product.highlight ? "bg-green-500 text-white" : "bg-red-500 text-white"}
-                       
-                      >
-                        {product.highlight === true
-                          ? "Sim"
-                          : "Não"}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={
-                          product.status === "AVAILABLE"
-                            ? "default"
-                            : "secondary"
-                        }
-                      >
-                        {product.status === "AVAILABLE"
-                          ? "Finalizado"
-                          : "Sobe encomenda"}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="font-medium">
-                      {formatPrice(product.price)}
-                    </TableCell>
-                    <TableCell className="font-medium">
-                      {product.views}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => openEditDialog(product)}
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                       
-                      </div>
-                    </TableCell>
+        {docQuery.isLoading ? (
+          <p>Carregando </p>
+        ) : (
+          <Card className="shadow-sm">
+            <CardHeader>
+              <CardTitle className="font-heading font-bold">
+                Lista de Produtos
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Imagem</TableHead>
+                    <TableHead>Nome</TableHead>
+                    <TableHead>Destacado</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Preço</TableHead>
+                    <TableHead>Views</TableHead>
+                    <TableHead className="text-right">Ações</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+                </TableHeader>
+                <TableBody>
+                  {docQuery.data?.map((product: Products, index: number) => (
+                    <TableRow key={product.id}>
+                      <TableCell>
+                        <img
+                          src={
+                            product.images.length > 0
+                              ? product?.images[0]
+                              : "/caution.svg"
+                          }
+                          alt={product.name}
+                          className="w-10 h-10 rounded-lg object-cover"
+                        />
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        {product.name}
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          className={
+                            product.highlight
+                              ? "bg-green-500 text-white"
+                              : "bg-red-500 text-white"
+                          }
+                        >
+                          {product.highlight === true ? "Sim" : "Não"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          variant={
+                            product.status === "AVAILABLE"
+                              ? "default"
+                              : "secondary"
+                          }
+                        >
+                          {product.status === "AVAILABLE"
+                            ? "Finalizado"
+                            : "Sobe encomenda"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        {formatPrice(product.price)}
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        {product.views}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => openEditDialog(product)}
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </DashboardLayout>
   );
