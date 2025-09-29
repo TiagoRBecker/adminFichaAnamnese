@@ -20,6 +20,13 @@ export const useDocumentsHook = () => {
       return response.data;
     },
   });
+    const docQueryLastProducts = useQuery({
+    queryKey: ["docs"],
+    queryFn: async () => {
+      const response = await api.get("/products/last");
+      return response.data;
+    },
+  });
 
   const create = useMutation({
     mutationFn: async (data: DocType) => {
@@ -86,5 +93,6 @@ export const useDocumentsHook = () => {
     create,
     updateDoc,
     getCachedDocs,
+    docQueryLastProducts
   };
 };

@@ -5,9 +5,9 @@ export const useCarts = () => {
   const api = useAxiosAuth();
 
   return useQuery({
-    queryKey: ["abandoned-carts"],
+    queryKey: ["carts-all"],
     queryFn: async () => {
-      const response = await api.get("/abandoned/all");
+      const response = await api.get("/cart/all");
       return response.data;
     },
   });

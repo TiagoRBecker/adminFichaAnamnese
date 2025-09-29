@@ -8,8 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
   Package,
   FolderOpen,
-  FileText,
-  TrendingUp,
+ ShoppingBag,
   Menu,
   X,
   BarChart3,
@@ -33,6 +32,11 @@ const navigation = [
     name: "Categorias",
     href: "/dashboard/categorias",
     icon: FolderOpen,
+  },
+   {
+    name: "Sistema de Carrinho",
+    href: "/dashboard/carts",
+    icon: ShoppingBag,
   },
  
 
