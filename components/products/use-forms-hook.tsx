@@ -35,15 +35,13 @@ export const useProducthookForm = ({ product, handleCloseModal }: Props) => {
         ...product,
         categoryIds: product.categories.map((cat: { id: string }) => cat.id),
         docs: product?.doc?.key ? product.name : null,
-        emphasis: product.highlight.toString(),
+        emphasis: product.highlight?.toString(),
         price: (product.price / 100).toFixed(2),
         images: product.images,
       });
     }
   }, []);
-  useEffect(() => {
-    handleClearFiles();
-  }, [status]);
+console.log(product)
   const { mutateAsync: uploadDocsFile } = useUploadDocs();
   const { mutateAsync: uploadImagesFiles } = useUploadImages();
 
@@ -64,14 +62,7 @@ export const useProducthookForm = ({ product, handleCloseModal }: Props) => {
     if (pdfInputRef.current) pdfInputRef.current.value = "";
     return;
   };
-  const handleClearFiles = () => {
-    if (
-      (status === "UNAVAILABLE" && fileInputRef.current?.value !== "") ||
-      pdfInputRef.current?.value !== ""
-    ) {
-      return null;
-    }
-  };
+ 
   const uploadDocs = async (docs: File) => {
     if (docs instanceof File) {
       return await uploadDocsFile({ file: docs });

@@ -20,14 +20,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus, Edit, Trash2, Package } from "lucide-react";
+import { Plus, Edit,  Package } from "lucide-react";
 import { ProductForm } from "@/components/products/product-form";
 import { useDocumentsHook } from "@/lib/queries/useDocuments";
 import { Products } from "@/lib/types/products";
-import { DialogOverlay, DialogPortal } from "@radix-ui/react-dialog";
 
 export default function ProductsPage() {
   const { docQuery } = useDocumentsHook();
+
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);

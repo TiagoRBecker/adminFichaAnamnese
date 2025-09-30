@@ -21,7 +21,7 @@ export const useDocumentsHook = () => {
     },
   });
     const docQueryLastProducts = useQuery({
-    queryKey: ["docs"],
+    queryKey: ["docs-last"],
     queryFn: async () => {
       const response = await api.get("/products/last");
       return response.data;

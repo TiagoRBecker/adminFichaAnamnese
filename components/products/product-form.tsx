@@ -20,6 +20,7 @@ import {
 } from "../ui/form";
 import { Products } from "@/lib/types/products";
 import { useProducthookForm } from "./use-forms-hook";
+import { useEffect } from "react";
 
 type Props = {
   product: Products;
@@ -36,6 +37,16 @@ export function ProductForm({ product, handleCloseModal }: Props) {
     pdfInputRef,
     status,
   } = useProducthookForm({ product, handleCloseModal });
+  useEffect(() => {
+    if (
+      status === "UNAVAILABLE" &&
+      (fileInputRef.current?.value !== "" || pdfInputRef.current?.value !== "")
+    ) {
+      form.setValue("images", []);
+      form.setValue("docs", "");
+      return;
+    }
+  }, [status, fileInputRef, pdfInputRef]);
 
   return (
     <Form {...form}>
@@ -98,7 +109,7 @@ export function ProductForm({ product, handleCloseModal }: Props) {
                     <RadioGroup
                       value={field.value}
                       onValueChange={field.onChange}
-                      disabled={product?.doc.key ? true : false}
+                      disabled={product?.doc?.key ? true : false}
                     >
                       {stockValues?.map(
                         (option: {

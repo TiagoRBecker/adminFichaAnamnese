@@ -169,7 +169,7 @@ export default function DashboardPage() {
                           Documentos por Categoria
                         </span>
                       </div>
-                      <Badge variant="outline">{}</Badge>
+                      
                     </div>
                   </div>
                 </CardContent>
