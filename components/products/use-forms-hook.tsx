@@ -41,7 +41,7 @@ export const useProducthookForm = ({ product, handleCloseModal }: Props) => {
       });
     }
   }, []);
-console.log(product)
+
   const { mutateAsync: uploadDocsFile } = useUploadDocs();
   const { mutateAsync: uploadImagesFiles } = useUploadImages();
 
@@ -62,7 +62,7 @@ console.log(product)
     if (pdfInputRef.current) pdfInputRef.current.value = "";
     return;
   };
- 
+
   const uploadDocs = async (docs: File) => {
     if (docs instanceof File) {
       return await uploadDocsFile({ file: docs });
@@ -91,14 +91,13 @@ console.log(product)
   const handleUpdateDocs = async (data: DocType) => {
     const docs = await uploadDocs(data.docs);
     const images = await uploadImages(data.images as File[]);
-    console.log(docs);
-    console.log(product.doc.key);
+ 
     updateDoc.mutate({
       id: product.id,
       data: {
         ...data,
-        docs: docs ?? product.doc.key,
-        images: images ?? data.images,
+        docs: docs ?? product.doc?.key,
+        images: images ?? data?.images,
       },
     });
     handleCloseModal();

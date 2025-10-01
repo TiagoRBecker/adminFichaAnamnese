@@ -86,7 +86,7 @@ const ListCarts = () => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
       currency: "BRL",
-    }).format(amount);
+    }).format(amount  / 100);
   };
   return (
     <section className="w-full h-full flex flex-col gap-10">
